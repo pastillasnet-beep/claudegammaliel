@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     }
 
     let expirations = null;
-    const expRes = await fetch(`${base}/markets/options/expirations?symbol=${symbol}`, { headers });
+    const expRes = await fetch(`${base}/markets/options/expirations?symbol=${symbol}&includeAllRoots=true`, { headers });
     expirations = await expRes.json();
 
     res.status(200).json({ quote: quoteJson, chain, expirations });
