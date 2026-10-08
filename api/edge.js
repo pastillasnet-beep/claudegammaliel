@@ -10,6 +10,10 @@ export default async function handler(req, res) {
   const day = d => d.toISOString().slice(0, 10);
   const now = new Date();
   try {
+    if (req.query.lite === '1') {
+      const history = await get(`/markets/history?symbol=${symbol}&interval=daily&start=${day(new Date(now - 140 * 864e5))}&end=${day(now)}`);
+      return res.status(200).json({ history });
+    }
     const [quote, history, timesales] = await Promise.all([
       get(`/markets/quotes?symbols=${symbol}`),
       get(`/markets/history?symbol=${symbol}&interval=daily&start=${day(new Date(now - 140 * 864e5))}&end=${day(now)}`),
